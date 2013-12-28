@@ -49,7 +49,8 @@ class PackageInstallCommand extends Command {
 	{
 		$packageName = $this->argument('packageName');
 		// Calls composer require
-		$this->call('package:require', compact('packageName'));
+		//$this->call('package:require', compact('packageName'));
+		$this->call('package:require', array_merge($this->prepareArguments(), $this->prepareOptions()));
 
 		$path = $this->getPackagePath($packageName);
 		$provider = $this->providerCreator->buildProviderFromJsonFile($path);
@@ -73,6 +74,28 @@ class PackageInstallCommand extends Command {
 	}
 
 	/**
+	 * Remove current command from arguments
+	 * 
+	 * @return array
+	 */
+	protected function prepareArguments(){
+		return array_except( $this->argument(), array('command'))
+	}
+
+	/**
+	 * adds '--' prefix to all options
+	 * 
+	 * @return array          	
+	 */
+	protected function prepareOptions(){
+		$new = array();
+		foreach($this->option() as $key => $value){
+			$new['--' . $key] = $value;
+		}
+		return $new;
+	}
+
+	/**
 	 * Get the console command arguments.
 	 *
 	 * @return array
@@ -83,5 +106,19 @@ class PackageInstallCommand extends Command {
 			array('packageName', InputArgument::REQUIRED, 'Name of the composer package to be installed.'),
 		);
 	}
+
+    /**
+     * Get the console command options.
+     *
+     * @return array
+     */
+    protected function getOptions()
+    {
+        return array(
+			array('dev', null, InputOption::VALUE_NONE, 'Add requirement to require-dev.', null),
+			array('no-update', null, InputOption::VALUE_NONE, 'Disables the automatic update of the dependiencies.', null),
+			array('no-progress', null, InputOption::VALUE_NONE, 'Disables the automatic update of the dependiencies.', null),
+		);
+    }	
 
 }
