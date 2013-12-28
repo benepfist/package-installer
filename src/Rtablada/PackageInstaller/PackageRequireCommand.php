@@ -37,6 +37,10 @@ class PackageRequireCommand extends Command {
 	 */
 	public function fire()
 	{
+		$command = 'composer require ' . $this->argument('packageName');
+		$command .= ($this->option('dev')) ? ' --dev' : ''; 
+		$command .= ($this->option('dev')) ? ' --no-update' : ''; 
+		$command .= ($this->option('dev')) ? ' --no-progress' : ''; 
 		passthru('composer require ' . $this->argument('packageName'));
 	}
 
@@ -51,5 +55,19 @@ class PackageRequireCommand extends Command {
 			array('packageName', InputArgument::REQUIRED, 'Name of the composer package to be installed.'),
 		);
 	}
+
+    /**
+     * Get the console command options.
+     *
+     * @return array
+     */
+    protected function getOptions()
+    {
+        return array(
+			array('dev', null, InputOption::VALUE_NONE, 'Add requirement to require-dev.', null),
+			array('no-update', null, InputOption::VALUE_NONE, 'Disables the automatic update of the dependiencies.', null),
+			array('no-progress', null, InputOption::VALUE_NONE, 'Disables the automatic update of the dependiencies.', null),
+		);
+    }
 
 }
