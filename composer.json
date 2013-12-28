@@ -16,11 +16,11 @@
         "illuminate/support": "~4",
         "illuminate/console": "~4",
         "illuminate/filesystem": "~4",
-        "illuminate/config": "~4",
-        "knplabs/packagist-api": "v1.1"
+        "illuminate/config": "~4"
     },
     "require-dev": {
-        "mockery/mockery": "0.8.*"
+        "mockery/mockery": "0.8.*",
+        "knplabs/packagist-api": "v1.1"
     },
     "autoload": {
         "psr-0": {
