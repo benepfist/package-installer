@@ -40,6 +40,11 @@ class PackageInstaller
 		$this->config = $config;
 	}
 
+	/**
+	 * Updates the app.php file
+	 * 
+	 * @param Rtablada\PackageIstaller\Provider
+	 */
 	public function updateConfigurations(Provider $provider)
 	{
 		$this->updateProviders($provider->providers);
@@ -47,6 +52,11 @@ class PackageInstaller
 		return $this->putConfigContents();
 	}
 
+	/**
+	 * Merges the existing providers with the new ones
+	 * 
+	 * @param  array  $providers
+	 */
 	protected function updateProviders(array $providers)
 	{
 		$this->getConfigContents();
@@ -56,6 +66,11 @@ class PackageInstaller
 		$this->replaceConfig('providers', $configProviders);
 	}
 
+	/**
+	 * Merges the existing aliases with the new ones
+	 * 
+	 * @param  array  $aliases
+	 */
 	protected function updateAliases(array $aliases)
 	{
 		$aliases = $this->getAliasMap($aliases);
@@ -66,6 +81,12 @@ class PackageInstaller
 		$this->replaceConfig('aliases', $configAliases);
 	}
 
+	/**
+	 * [getAliasMap description]
+	 * 
+	 * @param  array  $aliases
+	 * @return array         
+	 */
 	protected function getAliasMap(array $aliases)
 	{
 		$aliasMap = array();
@@ -75,11 +96,22 @@ class PackageInstaller
 		return $aliasMap;
 	}
 
+	/**
+	 * Writes the configuration back to the filesystem
+	 * 
+	 * @return integer 
+	 */
 	protected function putConfigContents()
 	{
 		return $this->file->put($this->getConfigPath(), $this->contentsCache);
 	}
 
+	/**
+	 * Replaces the old aliases|providers with the new ones
+	 * 
+	 * @param  string $key   aliases | providers
+	 * @param  array  $array 
+	 */
 	protected function replaceConfig($key, array $array)
 	{
 		$replace = $this->getNewConfigContents($key, $array);
@@ -87,6 +119,13 @@ class PackageInstaller
 		$this->contentsCache = preg_replace($pattern, $replace, $this->contentsCache);
 	}
 
+	/**
+	 * Adds the new line
+	 * 
+	 * @param  string $key   aliases | providers
+	 * @param  array  $array items
+	 * @return string        the update providers and alias content
+	 */
 	protected function getNewConfigContents($key, array $array)
 	{
 		if (isset($array[0])) {
@@ -106,6 +145,11 @@ class PackageInstaller
 		return $content;
 	}
 
+	/**
+	 * Loads the config file
+	 * 
+	 * @return string content of app.php
+	 */
 	protected function getConfigContents()
 	{
 		if(!isset($this->contentsCache)) {
@@ -115,6 +159,11 @@ class PackageInstaller
 		return $this->contentsCache;
 	}
 
+	/**
+	 * Determines the application config path
+	 * 
+	 * @return string 
+	 */
 	protected function getConfigPath()
 	{
 		return app_path().'/config/app.php';
