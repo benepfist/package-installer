@@ -20,7 +20,7 @@
     },
     "require-dev": {
         "mockery/mockery": "0.8.*",
-        "knplabs/packagist-api": "v1.1"
+        "knplabs/packagist-api": "1.1.*"
     },
     "autoload": {
         "psr-0": {
