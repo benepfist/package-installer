@@ -79,7 +79,7 @@ class PackageInstallCommand extends Command {
 	 * @return array
 	 */
 	protected function prepareArguments(){
-		return array_except( $this->argument(), array('command'))
+		return array_except( $this->argument(), array('command'));
 	}
 
 	/**
