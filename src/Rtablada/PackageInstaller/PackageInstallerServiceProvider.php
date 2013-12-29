@@ -1,7 +1,6 @@
 <?php namespace Rtablada\PackageInstaller;
 
 use Illuminate\Support\ServiceProvider;
-use Packagist\Api\Client;
 
 class PackageInstallerServiceProvider extends ServiceProvider {
 
@@ -47,7 +46,7 @@ class PackageInstallerServiceProvider extends ServiceProvider {
 	{
 		$this->app['package.search'] = $this->app->share(function($app)
         {
-            return new PackageSearchCommand(new Client);
+            return new PackageSearchCommand(new \Packagist\Api\Client);
         });
 	}
 
